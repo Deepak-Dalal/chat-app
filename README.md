@@ -1,2 +1,2 @@
 # chat-app
-Advance chat application
+Advance chat application with end to end encryption
