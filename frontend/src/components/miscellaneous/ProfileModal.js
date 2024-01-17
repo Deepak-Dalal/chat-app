@@ -1,4 +1,3 @@
-import { ViewIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -9,9 +8,9 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
-  IconButton,
   Text,
   Image,
+  Tooltip,
 } from "@chakra-ui/react";
 
 const ProfileModal = ({ user, children }) => {
@@ -22,20 +21,22 @@ const ProfileModal = ({ user, children }) => {
       {children ? (
         <span onClick={onOpen}>{children}</span>
       ) : (
-        <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
+        <Tooltip label={"user profile"} placement="bottom" bg="teal" hasArrow>
+          <Button mx={4} _focus={{border: 'none'}} onClick={onOpen}><i class="fa fa-user" aria-hidden="true"></i></Button>
+        </Tooltip>
+        
       )}
-      <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal size="sm" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
-        <ModalContent h="410px">
+        <ModalContent h="300px" bg="teal" color="white">
           <ModalHeader
-            fontSize="40px"
-            fontFamily="Work sans"
+            fontSize="30px"
             d="flex"
             justifyContent="center"
           >
             {user.name}
           </ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton _focus={{border: 'none'}}/>
           <ModalBody
             d="flex"
             flexDir="column"
@@ -47,17 +48,14 @@ const ProfileModal = ({ user, children }) => {
               boxSize="150px"
               src={user.pic}
               alt={user.name}
+              style={{objectFit: 'cover'}}
             />
             <Text
-              fontSize={{ base: "28px", md: "30px" }}
-              fontFamily="Work sans"
+              fontSize={{ base: "18px", md: "20px" }}
             >
               Email: {user.email}
             </Text>
           </ModalBody>
-          <ModalFooter>
-            <Button onClick={onClose}>Close</Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

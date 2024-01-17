@@ -1,13 +1,14 @@
 import { AddIcon } from "@chakra-ui/icons";
-import { Box, Stack, Text } from "@chakra-ui/layout";
+import { Box, Stack, Text, Flex } from "@chakra-ui/layout";
 import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getSender } from "../config/ChatLogics";
 import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
-import { Button } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
+import { Avatar } from "@chakra-ui/avatar";
 
 const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
@@ -44,76 +45,91 @@ const MyChats = ({ fetchAgain }) => {
     fetchChats();
     // eslint-disable-next-line
   }, [fetchAgain]);
+  
+  const getChatPic = (chat) => {
+    if(chat.isGroupChat) {
+      return "https://icon-library.com/images/group-chat-icon/group-chat-icon-13.jpg"
+    } else {
+        const otherUser = chat.users.find((chatUser) => chatUser.name !== user.name)
+        return otherUser.pic;
+    }
+  }
 
   return (
     <Box
       d={{ base: selectedChat ? "none" : "flex", md: "flex" }}
       flexDir="column"
       alignItems="center"
-      p={3}
-      bg="white"
-      w={{ base: "100%", md: "31%" }}
-      borderRadius="lg"
-      borderWidth="1px"
+      bg="teal"
+      w={{ base: "100%", md: "21%" }}
     >
       <Box
         pb={3}
         px={3}
-        fontSize={{ base: "28px", md: "30px" }}
-        fontFamily="Work sans"
+        fontSize={{ base: "15px", md: "20px" }}
         d="flex"
         w="100%"
         justifyContent="space-between"
         alignItems="center"
+        color="white"
       >
         My Chats
         <GroupChatModal>
-          <Button
-            d="flex"
-            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-            rightIcon={<AddIcon />}
-          >
-            New Group Chat
+          <Button bg="teal" _hover={{ bg: "teal"}} _focus={{border: "none"}}>
+            <Tooltip label={"create chat group"} placement="top-end" bg="white" color="black" hasArrow>
+              <i class="fa fa-users" aria-hidden="true"></i>
+            </Tooltip>
           </Button>
+          
         </GroupChatModal>
       </Box>
       <Box
         d="flex"
         flexDir="column"
-        p={3}
-        bg="#F8F8F8"
+        bg="teal"
         w="100%"
         h="100%"
-        borderRadius="lg"
         overflowY="hidden"
       >
         {chats ? (
           <Stack overflowY="scroll">
             {chats.map((chat) => (
-              <Box
+              <Flex
+                direction="row"
+                align="center"
                 onClick={() => setSelectedChat(chat)}
                 cursor="pointer"
-                bg={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
-                color={selectedChat === chat ? "white" : "black"}
+                bg={selectedChat === chat ? "#6bb5b5" : "teal"}
+                _hover={{
+                  bg: "#6bb5b5",
+                }}
+                color="white"
                 px={3}
                 py={2}
-                borderRadius="lg"
                 key={chat._id}
               >
-                <Text>
-                  {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
-                </Text>
-                {chat.latestMessage && (
-                  <Text fontSize="xs">
-                    <b>{chat.latestMessage.sender.name} : </b>
-                    {chat.latestMessage.content.length > 50
-                      ? chat.latestMessage.content.substring(0, 51) + "..."
-                      : chat.latestMessage.content}
+                <Avatar
+                  mr={3}
+                  size="sm"
+                  cursor="pointer"
+                  src={getChatPic(chat)}
+                />
+                <Box>
+                  <Text>
+                    {!chat.isGroupChat
+                      ? getSender(loggedUser, chat.users)
+                      : chat.chatName}
                   </Text>
-                )}
-              </Box>
+                  {chat.latestMessage && (
+                    <Text fontSize="xs">
+                      <b>{chat.latestMessage.sender.name} : </b>
+                      {chat.latestMessage.content.length > 50
+                        ? chat.latestMessage.content.substring(0, 51) + "..."
+                        : chat.latestMessage.content}
+                    </Text>
+                  )}
+                </Box> 
+              </Flex>
             ))}
           </Stack>
         ) : (

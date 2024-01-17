@@ -15,6 +15,7 @@ import {
   Box,
   IconButton,
   Spinner,
+  Tooltip,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -179,7 +180,7 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
       const { data } = await axios.put(
         `/api/chat/groupremove`,
         {
-          chatId: selectedChat._id,
+             chatId: selectedChat._id,
           userId: user1._id,
         },
         config
@@ -205,21 +206,22 @@ const UpdateGroupChatModal = ({ fetchMessages, fetchAgain, setFetchAgain }) => {
 
   return (
     <>
-      <IconButton d={{ base: "flex" }} icon={<ViewIcon />} onClick={onOpen} />
+      <Tooltip label={"View group profile"} placement="bottom" bg="teal" hasArrow>
+        <Button mx={4} _focus={{border: 'none'}} onClick={onOpen}><i class="fa fa-user" aria-hidden="true"></i></Button>
+      </Tooltip>
 
       <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader
             fontSize="35px"
-            fontFamily="Work sans"
             d="flex"
             justifyContent="center"
           >
             {selectedChat.chatName}
           </ModalHeader>
 
-          <ModalCloseButton />
+          <ModalCloseButton _focus={{border: 'none'}}/>
           <ModalBody d="flex" flexDir="column" alignItems="center">
             <Box w="100%" d="flex" flexWrap="wrap" pb={3}>
               {selectedChat.users.map((u) => (

@@ -28,21 +28,17 @@ function Homepage() {
         d="flex"
         justifyContent="center"
         p={3}
-        bg="white"
+        bg="teal"
         w="100%"
         m="40px 0 15px 0"
-        borderRadius="lg"
-        borderWidth="1px"
       >
-        <Text fontSize="4xl" fontFamily="Work sans">
-          Talk-A-Tive
-        </Text>
+        <img src="chat-app-logo.png" alt="chat-app-logo.png" width="120"></img>
       </Box>
       <Box bg="white" w="100%" p={4} borderRadius="lg" borderWidth="1px">
-        <Tabs isFitted variant="soft-rounded">
-          <TabList mb="1em">
-            <Tab>Login</Tab>
-            <Tab>Sign Up</Tab>
+        <Tabs isFitted variant="soft-rounded" >
+          <TabList mb="1em" >
+            <Tab _selected={{ bg: 'teal', color: 'white' }} _focus={{border: "none"}}>Login</Tab>
+            <Tab _selected={{ bg: 'teal', color: 'white' }} _focus={{border: "none"}}>Sign Up</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

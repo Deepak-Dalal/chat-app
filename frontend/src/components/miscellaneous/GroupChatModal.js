@@ -133,8 +133,7 @@ const GroupChatModal = ({ children }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader
-            fontSize="35px"
-            fontFamily="Work sans"
+            fontSize="30px"
             d="flex"
             justifyContent="center"
           >
@@ -151,7 +150,7 @@ const GroupChatModal = ({ children }) => {
             </FormControl>
             <FormControl>
               <Input
-                placeholder="Add Users eg: John, Piyush, Jane"
+                placeholder="Start typing to add Users"
                 mb={1}
                 onChange={(e) => handleSearch(e.target.value)}
               />
@@ -181,7 +180,7 @@ const GroupChatModal = ({ children }) => {
             )}
           </ModalBody>
           <ModalFooter>
-            <Button onClick={handleSubmit} colorScheme="blue">
+            <Button onClick={handleSubmit} colorScheme="teal">
               Create Chat
             </Button>
           </ModalFooter>

@@ -52,6 +52,7 @@ function SideDrawer() {
   const history = useHistory();
 
   const logoutHandler = () => {
+    setSelectedChat("");
     localStorage.removeItem("userInfo");
     history.push("/");
   };
@@ -128,22 +129,17 @@ function SideDrawer() {
         d="flex"
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
+        bg="teal"
         w="100%"
-        p="5px 10px 5px 10px"
-        borderWidth="5px"
-      >
-        <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick={onOpen}>
-            <i className="fas fa-search"></i>
-            <Text d={{ base: "none", md: "flex" }} px={4}>
-              Search User
-            </Text>
-          </Button>
-        </Tooltip>
-        <Text fontSize="2xl" fontFamily="Work sans">
-          Talk-A-Tive
-        </Text>
+        p="10px 10px 10px 10px"
+      > 
+        <Button variant="ghost" onClick={onOpen} color="white" _hover={{color: 'black', bg: 'white'}} _focus={{border: "none"}}>
+          <i className="fas fa-search"></i>
+          <Text d={{ base: "none", md: "flex" }} px={4}>
+            Search User
+          </Text>
+        </Button>
+        <img src="chat-app-logo.png" alt="chat-app-logo.png" width="80"></img>
         <div>
           <Menu>
             <MenuButton p={1}>
@@ -151,7 +147,7 @@ function SideDrawer() {
                 count={notification.length}
                 effect={Effect.SCALE}
               />
-              <BellIcon fontSize="2xl" m={1} />
+              <BellIcon fontSize="2xl" m={1} color="white"/>
             </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}
@@ -170,8 +166,8 @@ function SideDrawer() {
               ))}
             </MenuList>
           </Menu>
-          <Menu>
-            <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
+          <Menu >
+            <MenuButton px={4}>
               <Avatar
                 size="sm"
                 cursor="pointer"
@@ -207,11 +203,11 @@ function SideDrawer() {
             {loading ? (
               <ChatLoading />
             ) : (
-              searchResult?.map((user) => (
+              searchResult?.map((searchResultUser) => (
                 <UserListItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => accessChat(user._id)}
+                  key={searchResultUser._id}
+                  user={searchResultUser}
+                  handleFunction={() => accessChat(searchResultUser._id)}
                 />
               ))
             )}
